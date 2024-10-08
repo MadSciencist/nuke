@@ -67,6 +67,19 @@ public class ParameterServiceTest
             });
         service.GetParameter(parameter, destinationType, separator: '+').Should().BeEquivalentTo(expectedValue);
     }
+    
+    [Theory]
+    [InlineData("emptyString", typeof(bool?), null)]
+    [InlineData("emptyString", typeof(bool), false)]
+    public void TestDefaultEnvironmentVariables(string parameter, Type destinationType, object expectedValue)
+    {
+        var service = GetService([],
+            new Dictionary<string, string>
+            {
+                { "emptyString", "" }
+            });
+        service.GetParameter(parameter, destinationType, separator: '+').Should().BeEquivalentTo(expectedValue);
+    }
 
     [Fact]
     public void TestExpression()

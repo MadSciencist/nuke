@@ -98,4 +98,15 @@ public class ReflectionUtilityTest
             .Should().BeOfType<int[]>().Which
             .Should().Equal(1, 2, 3);
     }
+    
+    [Theory]
+    [InlineData("", typeof(bool))]
+    [InlineData("", typeof(bool?))]
+    [InlineData(null, typeof(bool))]
+    [InlineData(null, typeof(bool?))]
+    public void Issue(string input, Type type)
+    {
+        ReflectionUtility.Convert(input, type, separator: null)
+            .Should().BeOfType<bool>().Which.Should().BeFalse();
+    }
 }
